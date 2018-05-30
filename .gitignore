@@ -5,7 +5,7 @@ data/
 uploads/
 
 # log files
-log/
+log/train/
 
 # OS generated files
 */.DS_Store
