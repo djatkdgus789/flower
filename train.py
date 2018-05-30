@@ -58,7 +58,7 @@ def train(n_epochs, batch_size, image_shape):
 
 
     # save weights
-    model.save_weights('./log/train/weights.hdf55')
+    model.save_weights('./log/train/weights.hdf5')
     model.save('./log/train/model_epochs_' + str(n_epochs) + '.h5')
     
 

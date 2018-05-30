@@ -1,6 +1,9 @@
 # train, test dataset
 data/
 
+# upload files
+uploads/
+
 # OS generated files
 */.DS_Store
 .DS_Store

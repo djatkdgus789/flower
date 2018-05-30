@@ -54,27 +54,27 @@ class Upload(Resource):
 
 			result = predict.predict(file)
 
-			if result == 0:
+			if result[0] == 0:
 			    label = "안투리움"
-			elif result == 1:
+			elif result[0] == 1:
 			    label =  "Ball Moss"
-			elif result == 2:
+			elif result[0] == 2:
 			    label = '참매발톱'
-			elif result == 3:
+			elif result[0] == 3:
 			    label = '가자니아'
-			elif result == 4:
+			elif result[0] == 4:
 			    label = "장미"
-			elif result == 5:
+			elif result[0] == 5:
 			    label = "해바라기"
-			elif result == 6:
+			elif result[0] == 6:
 			    label = "wall flower"
-			elif result == 7:
+			elif result[0] == 7:
 			    label = "yellow iris"
 
 			print(label)
 
 
-		upload = firebase.put('/uploads','/flower', {'image':filename, 'label' : label})
+		upload = firebase.put('/uploads','/flower', {'image':filename, 'label' : label, 'percent': result[1]})
 
 		return jsonify({'message' : 'image upload success!'})
 
@@ -82,12 +82,26 @@ class Load(Resource):
 	def get(self):
 		getImage = firebase.get('/uploads' + '/flower', 'image')
 		getLabel = firebase.get('/uploads' + '/flower', 'label')
+		getPercent = firebase.get('/uploads' + '/flower', 'percent')
 
-		# Flask 한글 json 유니코드 에러 해결
-		# getLabel = json.dumps(getLabel, ensure_ascii=False).encode('utf8')
-		# getLabel = jsonify(getLabel, content_type='application/json; charset=utf-8')
+		my_list = []
+		my_list.append(getLabel)
+		my_list.append(getImage)
+		my_list.append(getPercent)
 
-		return jsonify('flower',{'image': getImage, 'label': getLabel})
+		data = {'label': my_list[0], 'image': my_list[1], 'percent': my_list[2]}
+		json_string = json.dumps(data,ensure_ascii = False)
+		response = Response(json_string,content_type="application/json; charset=utf-8")
+		return response
+
+		
+		
+		
+		
+
+		
+
+		
 
 
 api.add_resource(Upload,'/api/upload')

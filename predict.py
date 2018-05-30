@@ -7,7 +7,7 @@ img_width, img_height = 80, 80
 n_epochs = 100
 
 model_path = './log/train/model_epochs_' + str(n_epochs) + '.h5'
-model_weights_path = './log/train/weights.hdf55'
+model_weights_path = './log/train/weights.hdf5'
 
 model = load_model(model_path)
 model.load_weights(model_weights_path)
@@ -26,12 +26,17 @@ def predict(file):
   with graph.as_default():
     array = model.predict(x)
   
-  print(array)
   # one-hot encoding)
   result = array[0]
   
   print(result)
+  per = round(max(result) * 100, 2)
+
   # one-hot encoding 결과 값 추출
   # 각 결과 값 label에 matching
   answer = np.argmax(result)
-  return answer
+
+  value = []
+  value.append(answer)
+  value.append(per)
+  return value
