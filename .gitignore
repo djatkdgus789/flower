@@ -1,2 +1,8 @@
 # train, test dataset
 data/
+
+# OS generated files
+*/.DS_Store
+.DS_Store
+.DS_Store?
+.python-version
