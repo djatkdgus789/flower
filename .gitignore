@@ -4,6 +4,9 @@ data/
 # upload files
 uploads/
 
+# log files
+log/
+
 # OS generated files
 */.DS_Store
 .DS_Store
