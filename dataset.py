@@ -86,21 +86,3 @@ class Dataset(object):
         image = np.expand_dims(image, axis=0)
 
         return image
-
-# batch_size = 128
-# image_shape = (80, 80, 3)
-
-# data = Dataset(batch_size, image_shape)
-
-# train_steps_per_epoch = len(data.train) // batch_size
-# validation_steps_per_epoch = len(data.test) // batch_size
-
-# # create data generator
-# train_generator = data.image_generator('train')
-# validation_generator = data.image_generator('test')
-
-
-# for i in data.classes:
-#     label = data.classes.index(i)
-#     label = to_categorical(label, len(data.classes))
-#     print(label)

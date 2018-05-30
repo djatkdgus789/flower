@@ -58,35 +58,9 @@ def train(n_epochs, batch_size, image_shape):
 
 
     # save weights
-    model.save_weights('./log/train/weights.h5')
+    model.save_weights('./log/train/weights.hdf55')
     model.save('./log/train/model_epochs_' + str(n_epochs) + '.h5')
     
-    from keras.utils import plot_model
-    plot_model(model, to_file='./model.png', show_shapes=True)
-
-    print(history.history.keys())
-    import matplotlib.pyplot as plt
-    # summarize history for accuracy
-    plt.plot(history.history['acc'])
-    plt.plot(history.history['val_acc'])
-    plt.title('model accuracy')
-    plt.ylabel('accuracy')
-    plt.xlabel('epoch')
-    plt.grid(True)
-    plt.legend(['train', 'test'], loc='upper left')
-    plt.savefig("model accuracy.png")
-    plt.show()
-    # summarize history for loss
-    plt.plot(history.history['loss'])
-    plt.plot(history.history['val_loss'])
-    plt.title('model loss')
-    plt.ylabel('loss')
-    plt.xlabel('epoch')
-    plt.grid(True)
-    plt.legend(['train', 'test'], loc='upper left')
-    plt.savefig("model loss.png")
-    plt.show()
-
 
 def main():
     # hyper parameters

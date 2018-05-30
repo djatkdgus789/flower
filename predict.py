@@ -7,7 +7,7 @@ img_width, img_height = 80, 80
 n_epochs = 100
 
 model_path = './log/train/model_epochs_' + str(n_epochs) + '.h5'
-model_weights_path = './log/train/weights.h5'
+model_weights_path = './log/train/weights.hdf55'
 
 model = load_model(model_path)
 model.load_weights(model_weights_path)
