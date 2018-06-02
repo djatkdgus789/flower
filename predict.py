@@ -24,17 +24,14 @@ def predict(file):
 
   
   with graph.as_default():
-    array = model.predict(x)
+    array = model.predict(x)[0]
   
   # one-hot encoding)
-  result = array[0]
-  
-  print(result)
-  per = round(max(result) * 100, 2)
+  per = round(max(array) * 100, 3)
 
   # one-hot encoding 결과 값 추출
   # 각 결과 값 label에 matching
-  answer = np.argmax(result)
+  answer = np.argmax(array)
 
   value = []
   value.append(answer)

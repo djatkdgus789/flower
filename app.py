@@ -55,21 +55,21 @@ class Upload(Resource):
 			result = predict.predict(file)
 
 			if result[0] == 0:
-			    label = "안투리움"
+			    label = "개나리"
 			elif result[0] == 1:
-			    label =  "Ball Moss"
+			    label =  "나팔꽃"
 			elif result[0] == 2:
-			    label = '참매발톱'
+			    label =  "데이지"
 			elif result[0] == 3:
-			    label = '가자니아'
+			    label = "목화"
 			elif result[0] == 4:
-			    label = "장미"
+			    label = "백합"
 			elif result[0] == 5:
-			    label = "해바라기"
+			    label = "수선화"
 			elif result[0] == 6:
-			    label = "wall flower"
+			    label = "장미"
 			elif result[0] == 7:
-			    label = "yellow iris"
+		    	label = "해바라기"
 
 			print(label)
 
@@ -96,12 +96,6 @@ class Load(Resource):
 
 		
 		
-		
-		
-
-		
-
-		
 
 
 api.add_resource(Upload,'/api/upload')
@@ -122,4 +116,4 @@ app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
 
 if __name__ == "__main__":
     app.debug=True
-    app.run(host='0.0.0.0', port=3000)
+    app.run(host='0.0.0.0', port=3389)

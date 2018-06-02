@@ -23,7 +23,6 @@ def main():
             path_split = (path.split('/'))
 
             data.append((path_split[2], path))
-            print(data)
         
 
     # data를 train, test dataset으로 나눈다.
