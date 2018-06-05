@@ -57,7 +57,7 @@ class Upload(Resource):
 			elif result[0] == 7:
 			    label = "장미"
 			elif result[0] == 8:
-			    label = "해바라기"
+				label = "해바라기"
 
 			print(label)
 
