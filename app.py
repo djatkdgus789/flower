@@ -3,37 +3,30 @@
 from firebase import firebase
 from flask import Flask, jsonify, request, render_template, Response, make_response, send_from_directory
 from flask_restful import Resource, Api
-from werkzeug import secure_filename
 import os
 import json
 import uuid
-from werkzeug import SharedDataMiddleware
 
 import predict
 
 
-ALLOWED_EXTENSIONS = set(['jpg', 'jpeg'])
-UPLOAD_FOLDER = 'uploads'
+"""
+0 : 개나리
+1 : 나팔꽃
+2 : 데이지
+3 : 동자꽃
+4 : 목화
+5 : 백일홍
+6 : 백합
+7 : 아부틸론
+8 : 장미
+9 : 해바라기
 
-
-def my_random_string(string_length=10):
-    """Returns a random string of length string_length."""
-    random = str(uuid.uuid4()) # Convert UUID format to a Python string.
-    random = random.upper() # Make all characters uppercase.
-    random = random.replace("-","") # Remove the UUID '-'.
-    return random[0:string_length] # Return the random string.
-
-def allowed_file(filename):
-    return '.' in filename and \
-           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
-
-
-
+"""
 firebase = firebase.FirebaseApplication("https://flower-87ee2.firebaseio.com", None)
 
 app = Flask(__name__)
 api = Api(app)
-app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
 @app.route("/")
 def template_test():
@@ -41,17 +34,11 @@ def template_test():
 
 class Upload(Resource):	
 	def post(self):
-		file = request.files['file']
-		if file and allowed_file(file.filename):
+		# byte -> image
+		file = request.get_data()
+		file = io.BytesIO(file)
 
-			# file을 전송된 폼 데이터 위조를 방지, 파일명 보호
-			filename = secure_filename(file.filename)
-			file_path = os.path.join(app.config['UPLOAD_FOLDER'], filename)
-			file.save(file_path)
-
-			filename = my_random_string(6) + filename
-			os.rename(file_path, os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
+		if file:
 			result = predict.predict(file)
 
 			if result[0] == 0:
@@ -59,59 +46,48 @@ class Upload(Resource):
 			elif result[0] == 1:
 			    label =  "나팔꽃"
 			elif result[0] == 2:
-			    label =  "데이지"
+			    label = '데이지'
 			elif result[0] == 3:
-			    label = "목화"
+			    label = '동자꽃'
 			elif result[0] == 4:
-			    label = "백합"
+			    label = '목화'
 			elif result[0] == 5:
-			    label = "수선화"
+			    label = "백일홍"
 			elif result[0] == 6:
-			    label = "장미"
+			    label = "백합"
 			elif result[0] == 7:
-		    	label = "해바라기"
+			    label = "아부틸론"
+			elif result[0] == 8:
+			    label = "장미"
+			elif result[0] == 9:
+				label = '해바라기'
 
 			print(label)
 
 
-		upload = firebase.put('/uploads','/flower', {'image':filename, 'label' : label, 'percent': result[1]})
+		upload = firebase.put('/uploads','/flower', {'label' : label, 'percent' : result[1]})
 
 		return jsonify({'message' : 'image upload success!'})
 
 class Load(Resource):
 	def get(self):
-		getImage = firebase.get('/uploads' + '/flower', 'image')
-		getLabel = firebase.get('/uploads' + '/flower', 'label')
 		getPercent = firebase.get('/uploads' + '/flower', 'percent')
+		getLabel = firebase.get('/uploads' + '/flower', 'label')
 
-		my_list = []
-		my_list.append(getLabel)
-		my_list.append(getImage)
-		my_list.append(getPercent)
+      	my_list = []
+        my_list.append(getLabel)
+        my_list.append(getPercent)
 
-		data = {'label': my_list[0], 'image': my_list[1], 'percent': my_list[2]}
-		json_string = json.dumps(data,ensure_ascii = False)
-		response = Response(json_string,content_type="application/json; charset=utf-8")
-		return response
+        data = {'label': my_list[0], 'percent': my_list[1]}
+        json_string = json.dumps(data,ensure_ascii = False)
+        response = Response(json_string,content_type="application/json; charset=utf-8")
+        return response
 
-		
-		
 
 
 api.add_resource(Upload,'/api/upload')
 api.add_resource(Load,'/api/load')
 
-@app.route('/uploads/<filename>')
-def uploaded_file(filename):
-	filename = firebase.get('/uploads' + '/flower', 'image')
-	return send_from_directory(app.config['UPLOAD_FOLDER'], filename)
-
-app.add_url_rule('/uploads/<filename>', 'uploaded_file',
-                 build_only=True)
-
-app.wsgi_app = SharedDataMiddleware(app.wsgi_app, {
-    '/uploads':  app.config['UPLOAD_FOLDER']
-})
 
 
 if __name__ == "__main__":

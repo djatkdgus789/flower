@@ -7,8 +7,8 @@ from keras.optimizers import SGD
 import numpy as np
 from sklearn.metrics import classification_report, confusion_matrix
 
-batch_size = 32
-image_shape = (80, 80, 3)
+batch_size = 16
+image_shape = (224, 224, 3)
 n_epochs = 100
 
 # create dataset
@@ -19,7 +19,7 @@ model = load_model('./log/train/model_epochs_' + str(n_epochs) + '.h5')
 model.summary()
 
 # load weights
-model.load_weights('./log/train/weights.hdf5')
+model.load_weights('./log/train/weights.h5')
 
 # choice a random input
 sample = random.choice(data.test)

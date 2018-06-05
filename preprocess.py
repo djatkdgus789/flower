@@ -1,14 +1,10 @@
 import os
 import csv
-
 from glob import glob
 from sklearn.model_selection import train_test_split
 
 
 FLOWERS_IMAGES = './data/'
-
-
-
 
 def main():
     data = []
@@ -26,7 +22,7 @@ def main():
         
 
     # data를 train, test dataset으로 나눈다.
-    train, test = train_test_split(data, test_size=0.3, random_state=0)
+    train, test = train_test_split(data, test_size=0.2, random_state=0)
 
     # create train dataset
     with open('./data/train.csv', 'w') as f:

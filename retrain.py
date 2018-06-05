@@ -53,14 +53,14 @@ def retrain(n_epochs, batch_size, image_shape, saved_model):
     )
 
     # save weights
-    model.save_weights('./log/retrain/weights.hdf5')
+    model.save_weights('./log/retrain/weights.h5')
 
 
 def main():
     # hyper parameters
     n_epochs = 100
-    batch_size = 128
-    image_shape = (80, 80, 3)
+    batch_size = 16
+    image_shape = (224, 224, 3)
     saved_model = './log/train/checkpoint.hdf5'
 
     # start time

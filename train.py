@@ -39,7 +39,7 @@ def train(n_epochs, batch_size, image_shape):
     # create model
     model = CNN2D(len(data.classes), image_shape)
     model.compile(loss='categorical_crossentropy',
-              optimizer=optimizers.RMSprop(lr=0.0004),
+              optimizer=optimizers.RMSprop(lr=0.0002),
               metrics=['accuracy'])
 
     model.summary()
@@ -58,7 +58,7 @@ def train(n_epochs, batch_size, image_shape):
 
 
     # save weights
-    model.save_weights('./log/train/weights.hdf5')
+    model.save_weights('./log/train/weights.h5')
     model.save('./log/train/model_epochs_' + str(n_epochs) + '.h5')
     
 
@@ -66,7 +66,7 @@ def main():
     # hyper parameters
     n_epochs = 100
     batch_size = 32
-    image_shape = (80, 80, 3)
+    image_shape = (224, 224, 3)
 
     # start time
     start = datetime.now()

@@ -3,7 +3,7 @@ from keras.preprocessing.image import load_img, img_to_array
 from keras.models import load_model
 import tensorflow as tf
 
-img_width, img_height = 80, 80
+img_width, img_height = 224, 224
 n_epochs = 100
 
 model_path = './log/train/model_epochs_' + str(n_epochs) + '.h5'

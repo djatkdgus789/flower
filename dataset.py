@@ -52,6 +52,7 @@ class Dataset(object):
     def get_class_one_hot(self, class_str):
         label = self.classes.index(class_str)
         label = to_categorical(label, len(self.classes))
+        print(label)
         return np.array(label)
 
 
@@ -86,3 +87,24 @@ class Dataset(object):
         image = np.expand_dims(image, axis=0)
 
         return image
+
+
+batch_size = 16
+image_shape = (224, 224, 3)
+# create dataset
+data = Dataset(batch_size, image_shape)
+
+train_steps_per_epoch = len(data.train) // batch_size
+validation_steps_per_epoch = len(data.test) // batch_size
+
+# create data generator
+train_generator = data.image_generator('train')
+validation_generator = data.image_generator('test')
+
+for i in train_generator:
+    print(i)
+
+for i in data.classes:
+    label = data.classes.index(i)
+    label = to_categorical(label, len(data.classes))
+    print(label)
