@@ -16,11 +16,10 @@ import predict
 2 : 데이지
 3 : 동자꽃
 4 : 목화
-5 : 백일홍
-6 : 백합
-7 : 아부틸론
-8 : 장미
-9 : 해바라기
+5 : 백합
+6 : 아부틸론
+7 : 장미
+8 : 해바라기
 
 """
 firebase = firebase.FirebaseApplication("https://flower-87ee2.firebaseio.com", None)
@@ -52,15 +51,13 @@ class Upload(Resource):
 			elif result[0] == 4:
 			    label = '목화'
 			elif result[0] == 5:
-			    label = "백일홍"
-			elif result[0] == 6:
 			    label = "백합"
-			elif result[0] == 7:
+			elif result[0] == 6:
 			    label = "아부틸론"
-			elif result[0] == 8:
+			elif result[0] == 7:
 			    label = "장미"
-			elif result[0] == 9:
-				label = '해바라기'
+			elif result[0] == 8:
+			    label = "해바라기"
 
 			print(label)
 
