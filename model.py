@@ -13,9 +13,9 @@ def CNN2D(n_classes, image_shape):
         model.add(layer)
 
     model.add(Flatten(name='block6_flatten'))
-    model.add(Dense(512, activation='relu', name='block7_dense1'))
+    model.add(Dense(4096, activation='relu', name='block7_dense1'))
     model.add(Dropout(0.5, name='block7_dropout1'))
-    model.add(Dense(512, activation='relu', name='block7_dense2'))
+    model.add(Dense(4096, activation='relu', name='block7_dense2'))
     model.add(Dropout(0.5, name='block7_dropout2'))
     model.add(Dense(n_classes, activation='softmax', name='block7_dense3'))
 

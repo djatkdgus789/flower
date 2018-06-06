@@ -88,7 +88,7 @@ class Dataset(object):
         return image
 
 
-batch_size = 16
+batch_size = 32
 image_shape = (224, 224, 3)
 # create dataset
 data = Dataset(batch_size, image_shape)
