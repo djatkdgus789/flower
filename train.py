@@ -16,7 +16,7 @@ def sec2time(elapsed_sec):
 def train(n_epochs, batch_size, image_shape):
     # helpers
     # 학습이 정체되면 학습속도를 줄인다.
-    reduce_lr = ReduceLROnPlateau(monitor='val_acc', factor=0.9, patience=10, min_lr=0.000001, verbose=1)
+    reduce_lr = ReduceLROnPlateau(monitor='val_acc', factor=0.9, patience=5, min_lr=0.000001, verbose=1)
     # checkpointer
     checkpointer = ModelCheckpoint(filepath='./log/train/checkpoint.hdf5', verbose=0, save_best_only=False)
     # tensorboard
@@ -25,6 +25,8 @@ def train(n_epochs, batch_size, image_shape):
     earlystopper = EarlyStopping(patience=10)
     # csv logger
     csvlogger    = CSVLogger('./log/train/learning.log')
+    # save best
+    onlybest =  ModelCheckpoint('./log/train/{epoch:02d}-{val_loss:.4f}.h5', save_best_only=True, verbose=1, monitor='val_loss')
 
     # create dataset
     data = Dataset(batch_size, image_shape)
@@ -39,7 +41,7 @@ def train(n_epochs, batch_size, image_shape):
     # create model
     model = CNN2D(len(data.classes), image_shape)
     model.compile(loss='categorical_crossentropy',
-              optimizer=optimizers.RMSprop(lr=0.0002),
+              optimizer=optimizers.RMSprop(lr=0.0001),
               metrics=['accuracy'])
 
     model.summary()
@@ -50,7 +52,7 @@ def train(n_epochs, batch_size, image_shape):
         steps_per_epoch=train_steps_per_epoch,
         epochs=n_epochs,
         verbose=1,
-        callbacks=[reduce_lr, checkpointer, tensorboard, earlystopper, csvlogger],
+        callbacks=[reduce_lr, checkpointer, tensorboard, earlystopper, csvlogger, onlybest],
         validation_data=validation_generator,
         validation_steps=validation_steps_per_epoch,
         max_queue_size=3
@@ -58,7 +60,7 @@ def train(n_epochs, batch_size, image_shape):
 
 
     # save weights
-    model.save_weights('./log/train/weights.h5')
+    # model.save_weights('./log/train/weights.h5')
     model.save('./log/train/model_epochs_' + str(n_epochs) + '.h5')
     
 

@@ -47,24 +47,26 @@ train_dataset_count = 0
 train_true_count = 0
 
 for sample in data.train:
-    image = data.load_sample(sample)
-    sample_result = data.get_class_one_hot(sample[0])
-    predict_result = model.predict(image)[0]
-    if sample_result.argmax() == predict_result.argmax():
-        train_true_count = train_true_count + 1
-    train_dataset_count = train_dataset_count + 1
+	print('start train data test.....')
+	image = data.load_sample(sample)
+	sample_result = data.get_class_one_hot(sample[0])
+	predict_result = model.predict(image)[0]
+	if sample_result.argmax() == predict_result.argmax():
+		train_true_count = train_true_count + 1
+	train_dataset_count = train_dataset_count + 1
 print(' Train accuary: {0:4d}  /  {1:4d}  =  {2:6f} \n'.format(train_true_count, train_dataset_count, train_true_count / train_dataset_count))
 
 test_dataset_count = 0
 test_true_count = 0
 
 for sample in data.test:
-    image = data.load_sample(sample)
-    sample_result = data.get_class_one_hot(sample[0])
-    predict_result = model.predict(image)[0]
-    if sample_result.argmax() == predict_result.argmax():
-        test_true_count = test_true_count + 1
-    test_dataset_count = test_dataset_count + 1
+	print('start test data test.....')
+	image = data.load_sample(sample)
+	sample_result = data.get_class_one_hot(sample[0])
+	predict_result = model.predict(image)[0]
+	if sample_result.argmax() == predict_result.argmax():
+		test_true_count = test_true_count + 1
+	test_dataset_count = test_dataset_count + 1
 
 print(' Test accuary: {0:4d}  /  {1:4d}  =  {2:6f} \n'.format(test_true_count, test_dataset_count, test_true_count / test_dataset_count))
 
@@ -90,19 +92,22 @@ FLOWER_NAME = ['개나리','나팔꽃','데이지','동자꽃','목화','백합'
 
 classification = classification_report(y_all, y_pred, target_names=FLOWER_NAME)
 confusion = confusion_matrix(y_all, y_pred)
-# score = model.evaluate(X_all, y_all, batch_size=32)
-# Test_Loss = score[0] * 100
-# Test_accuracy = score[1] * 100
+score = model.evaluate(X_all, y_all, batch_size=32)
+Test_Loss = score[0] * 100
+Test_accuracy = score[1] * 100
 classification = str(classification)
 confusion = str(confusion)
 
 file_name = './report.txt'
 with open(file_name, 'w') as x_file:
-    # x_file.write('{} Test loss (%)'.format(Test_Loss))
-    # x_file.write('\n')
-    # x_file.write('{} Test accuracy (%)'.format(Test_accuracy))
-    # x_file.write('\n')
-    x_file.write('\n')
-    x_file.write('{}'.format(classification))
-    x_file.write('\n')
-    x_file.write('{}'.format(confusion))
+	print('writing file.....')
+	x_file.write('{} Test loss (%)'.format(Test_Loss))
+	x_file.write('\n')
+	x_file.write('{} Test accuracy (%)'.format(Test_accuracy))
+	x_file.write('\n')
+	x_file.write('\n')
+	x_file.write('{}'.format(classification))
+	x_file.write('\n')
+	x_file.write('{}'.format(confusion))
+
+print('end writing...')
